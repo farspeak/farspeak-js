@@ -1,6 +1,6 @@
 {
   "name": "farspeak",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Farspeak API",
   "main": "dist/farspeak.js",
   "module": "dist/farspeak.mjs",
