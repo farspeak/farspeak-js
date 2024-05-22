@@ -13,6 +13,9 @@
   "keywords": [
     "farspeak"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Marko Jakic",
   "license": "MIT",
   "devDependencies": {
