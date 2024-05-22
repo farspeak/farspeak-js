@@ -1,0 +1,30 @@
+{
+  "name": "farspeak",
+  "version": "0.0.1",
+  "description": "Farspeak API",
+  "main": "dist/farspeak.js",
+  "module": "dist/farspeak.mjs",
+  "types": "dist/farspeak.d.ts",
+  "scripts": {
+    "build": "tsup src/farspeak.ts --format cjs,esm --dts",
+    "lint": "tsc"
+  },
+  "keywords": [
+    "farspeak"
+  ],
+  "author": "Marko Jakic",
+  "license": "MIT",
+  "devDependencies": {
+    "@changesets/cli": "^2.27.2",
+    "@types/node": "^20.12.12",
+    "@types/ramda": "^0.30.0",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
+    "ramda": "^0.30.0"
+  }
+}
