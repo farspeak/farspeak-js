@@ -1,0 +1,5 @@
+---
+"farspeak": major
+---
+
+Initial release
