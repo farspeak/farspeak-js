@@ -4,10 +4,10 @@ Farspeak.ai offers AI tools to your app development workflow. This is our initia
 
 ## Getting started
 
-First install the NPM package:
+First install the NPM package (e.g. with npm, yarn, pnpm, bun):
 
 ```
-1. npm i farspeak
+npm i farspeak
 ```
 
 Then, in your JS or TS file import the `Farspeak` class:
