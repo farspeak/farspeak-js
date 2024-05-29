@@ -110,7 +110,7 @@ const doc = await farspeak
   .entity("rentals")
   .analyseDocument({ filePath, instructions, template });
 // Finally, check if this entity exists:
-const entity = await farspeak.entity("cvs").get<MyEntityType>(doc.id);
+const entity = await farspeak.entity("rentals").get<MyEntityType>(doc.id);
 ```
 
 The more specific you are about your requirements, the better the results will be. While a general list of paragraphs can work, it's not ideal. For the best outcome, clearly specify what you need, such as providing a list of amenities as an array of strings.
