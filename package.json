@@ -1,8 +1,13 @@
 {
   "name": "farspeak",
   "version": "1.0.0",
+  "changeset": "changeset",
   "description": "Farspeak API",
   "homepage": "https://github.com/farspeak/farspeak-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farspeak/farspeak-js.git"
+  },
   "main": "dist/farspeak.js",
   "module": "dist/farspeak.mjs",
   "types": "dist/farspeak.d.ts",
