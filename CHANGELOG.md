@@ -1,5 +1,11 @@
 # farspeak
 
+## 1.1.0
+
+### Minor Changes
+
+- 0d0b25e: Added pdf analyse to store as entity
+
 ## 1.0.0
 
 ### Major Changes
