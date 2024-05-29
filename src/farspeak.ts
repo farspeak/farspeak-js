@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { dissoc, omit } from "ramda";
 import {
+  analyseDocument,
   deleteEntities,
   deleteEntity,
   getEntities,
@@ -11,6 +12,7 @@ import {
   writeEntities,
 } from "./api";
 import { EntityOps } from "./entity-ops";
+import { FarspeakError } from "./errors";
 import {
   DeleteEntitiesResult,
   EntityType,
@@ -27,7 +29,7 @@ class Farspeak {
   private chain: string[];
   constructor({ app, env, backendToken }: Farspeak_Construct) {
     if (!app || !env || !backendToken) {
-      throw new Error("One of the dependencies is missing!");
+      throw new FarspeakError("One of the dependencies is missing!");
     }
     this.app = app;
     this.env = env;
@@ -139,6 +141,28 @@ class Farspeak {
       })
     );
     return deleted;
+  }
+  public async analyseDocument({
+    file,
+    instructions,
+    template,
+  }: {
+    instructions: string;
+    template: string;
+    file: Buffer;
+  }) {
+    const doc = await tryApi(() =>
+      analyseDocument({
+        app: this.app,
+        env: this.env,
+        backendToken: this.backendToken,
+        chain: this.chain,
+        instructions,
+        template,
+        file,
+      })
+    );
+    return doc;
   }
 }
 

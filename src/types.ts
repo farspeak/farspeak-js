@@ -3,12 +3,6 @@ export type Farspeak_Construct = {
   env: string | undefined;
   backendToken: string | undefined;
 };
-
-export type EntityWithId<T> = T & { id: string };
-export type EntityMap<T> = {
-  [key: string]: EntityWithId<T>;
-};
-
 export type EntityType = {
   [key: string]: any;
 };
@@ -28,28 +22,6 @@ export type EntitiesMeta = {
 export type PaginationMeta = {
   __meta: EntitiesMeta;
 }
-export type EntityAPIResult = {
-  __meta: {
-    self: string;
-  };
-} & { id: string } & {
-  [key: string]: EntityWithID;
-};
-export type EntitiesAPIResult = {
-  __meta: EntitiesMeta;
-} & {
-  [key: string]: EntityAPIResult[];
-};
-
-export type EntityWithID = {
-  id: string;
-} & {
-  [key: string]: EntityType;
-};
-export type EntitiesUpdatePayload = {
-  payload: EntityWithID[];
-};
-
 export type Entity_Chain = { chain: string[] };
 export type Entity_ID = { id: string };
 export type Entity_Body = { body: EntityType };
@@ -62,6 +34,11 @@ export type API_ARGS = {
   backendToken: string;
 };
 
-export type Delete_Entity_Result = { deleted: boolean };
+export type Analyse_Doc = {
+  file: Buffer;
+  instructions: string;
+  template: string;
+};
+
 export type DeleteEntitiesResult = Promise<{ deleted: number }>;
 export type WriteEntitiesResult = Promise<{ ids: string[] }>;

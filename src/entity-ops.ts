@@ -1,6 +1,9 @@
+import { readFile } from "fs/promises";
 import { dissoc, pick } from "ramda";
+import { FarspeakError } from "./errors";
 import { Farspeak } from "./farspeak";
-import { EntityType } from "./types";
+import { EntityType, Entity_ID } from "./types";
+import { checkPdf } from "./utils";
 
 export const EntityOps = (farspeak: Farspeak, name: string) => {
   return {
@@ -55,6 +58,38 @@ export const EntityOps = (farspeak: Farspeak, name: string) => {
       const result = await farspeak.inquire(inquiry);
       farspeak.resetChain();
       return result;
+    },
+    analyseDocument: async ({
+      filePath,
+      instructions,
+      template,
+    }: {
+      filePath: string;
+      instructions: string;
+      template: Record<string, string>;
+    }): Promise<Entity_ID & EntityType> => {
+      if (!template || typeof template !== "object")
+        throw new FarspeakError("Template is required");
+      try {
+        const isPdf = checkPdf(filePath);
+        if (!isPdf) {
+          throw new FarspeakError("File is not a PDF");
+        }
+        const fileStream = await readFile(filePath);
+        const oneMBInMebi = 1 << 20;
+        if (fileStream.byteLength > oneMBInMebi) {
+          throw new FarspeakError("File size is too large");
+        }
+        const doc = await farspeak.analyseDocument({
+          file: fileStream,
+          instructions,
+          template: JSON.stringify(template),
+        });
+        farspeak.resetChain();
+        return doc;
+      } catch (e: any) {
+        throw new FarspeakError(e.message);
+      }
     },
   };
 };
