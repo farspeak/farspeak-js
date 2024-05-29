@@ -6,7 +6,7 @@
   "homepage": "https://github.com/farspeak/farspeak-js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/farspeak/farspeak-js.git"
+    "url": "https://github.com/farspeak/farspeak-js.git"
   },
   "main": "dist/farspeak.js",
   "module": "dist/farspeak.mjs",
