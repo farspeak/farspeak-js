@@ -16,15 +16,17 @@ npm i farspeak
 
 Then, in your JS or TS file import the `Farspeak` class:
 
-```js
+```ts
 import { Farspeak } from "farspeak";
+
 //OR
+
 const Farspeak = require("farspeak").Farspeak;
 ```
 
 Instantiate the farspeak variable:
 
-```js
+```ts
 const farspeak = new Farspeak({
   app: "your-app", // your app name
   env: "dev", // your app env
@@ -36,7 +38,7 @@ const farspeak = new Farspeak({
 
 Next step is to write your first entity. This is done by `.write` command, for example using `cars` entity:
 
-```js
+```ts
 // Entities have to be of array type even with only one element
 const todos = [
   {
@@ -59,7 +61,7 @@ farspeak.entity("todos").write(todos).then(console.log); // get the ids
 
 Let's make a sample inquiry using `.inquire` method, useful for RAG applications:
 
-```js
+```ts
 farspeak
   .entity("todos")
   .inquire("Which todo has highest priority?")
@@ -82,14 +84,14 @@ The interface works similarly to sending entities, but processing documents resu
 
 Using Typescript it becomes very easy, just prepare your type and instructions for parsing.
 
-```js
+```ts
 type MyEntityType = {
-  full_name: string,
-  landlord: string,
-  location: string,
-  email: string,
-  phone: string,
-  paragraphs: string[],
+  full_name: string;
+  landlord: string;
+  location: string;
+  email: string;
+  phone: string;
+  paragraphs: string[];
 };
 const filePath = "./path/to/fake.pdf";
 const instructions = "This is a Rental agreement";
@@ -102,20 +104,24 @@ const template = {
   paragraphs: `List of paragraphs in the contract`,
 };
 
-const doc = await farspeak
+const doc = farspeak
   .entity("rentals")
   .fromDocument({ filePath, instructions, template })
   .then(console.log);
+
 // Finally, check if this entity exists:
-const entity = (await farspeak.entity("rentals").get) < MyEntityType > doc.id;
+const entity = farspeak
+  .entity("rentals")
+  .get<MyEntityType>(doc.id)
+  .then(console.log);
 ```
 
 The more specific you are about your requirements, the better the results will be. While a general list of paragraphs can work, it's not ideal. For the best outcome, clearly specify what you need, such as providing a list of amenities as an array of strings.
 
 Now you can query your entities:
 
-```js
-const inquire = await farspeak
+```ts
+const inquire = farspeak
   .entity("rentals")
   .inquire("What is cancellation policy in the Empire Street 123?");
 ```
@@ -127,11 +133,14 @@ See [e2e.docs.test.ts](src/test/e2e.docs.test.ts) for a CV example.
 As with any CRUD service, you can update and delete entities. However, our update feature ensures that proprietary data and embeddings remain synchronized with every CRUD operation. This eliminates the hassle of updating data and embeddings separately.
 
 ```ts
-const updated = await farspeak.entity("rentals").update<MyEntityType>({
-  id: doc.id,
-  landlord: "New Name", // update existing prop
-  start_date: "2024-01-01", // <-- you can add new props
-});
+const updated = farspeak
+  .entity("rentals")
+  .update<MyEntityType>({
+    id: doc.id,
+    landlord: "New Name", // update existing prop
+    start_date: "2024-01-01", // <-- you can add new props
+  })
+  .then(console.log);
 // Now you can inquire the new changes since embeddings are up-to-date
 ```
 
