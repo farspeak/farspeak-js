@@ -1,5 +1,11 @@
 # farspeak
 
+## 1.1.1
+
+### Patch Changes
+
+- 0d5f46a: Fix CommonJS and ESM installation issues. Rename analyseDocument to fromDocument.
+
 ## 1.1.0
 
 ### Minor Changes
