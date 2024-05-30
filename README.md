@@ -34,6 +34,10 @@ const farspeak = new Farspeak({
 });
 ```
 
+| :warning: | Never expose the backend token in the frontend code, as it will be visible and unprotected in the browser. |
+|-|:-|
+
+
 ## Getting started
 
 Let's write our first entities. Prepare some data that you'll import:
