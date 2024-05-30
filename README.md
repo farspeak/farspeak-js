@@ -26,6 +26,8 @@ import { Farspeak } from "farspeak";
 const Farspeak = require("farspeak").Farspeak;
 ```
 
+Go to the [dashboard](https://dashboard.farspeak.ai) and create your first app. Conveniently, environment called "dev" and a backend token will be automatically created for you. But you can rename all of it.
+
 Instantiate the farspeak variable:
 
 ```ts
