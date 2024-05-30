@@ -1,6 +1,8 @@
 # Farspeak JS/TS
 
-Our service allows you to store and process both structured and unstructured data in a unified database format. Whether you're handling JSON files, PDFs, or other document types, our npm package ensures all data is transformed and stored as JSON entities. The interface for processing documents is similar to standard CRUD operations, making it easy to integrate. Regardless of whether you're storing traditional entities or processing documents, the outcome is the same: data is seamlessly written to the Farspeak database. This integration allows you to query all your data using natural language immediately, with structured and unstructured data coexisting harmoniously in a single database.
+Our service allows you to store and process both structured and unstructured data in a unified database format. Whether you're handling JSON objects, PDFs, or other document types, our npm package ensures all data is transformed and stored both as JSON entities and their vector embedding representations, always in-sync.
+
+The interface for processing documents is similar to standard CRUD operations, making it easy to integrate. Regardless of whether you're storing traditional entities or processing documents, the outcome is the same: data is seamlessly written to the Farspeak database. This integration allows you to query all your data using natural language immediately, with structured and unstructured data coexisting harmoniously in a single database.
 
 This is our early release, so stay tuned for much more to come!
 
@@ -210,3 +212,7 @@ To avoid hassle with ts-node and Typescript, I used Bun to run all my .ts files 
 To install Bun follow the instructions on [Bun](https://bun.sh/) home page.
 
 Please have a look at [tests](src/test) to see how can you use Farspeak with Typescript.
+
+## Limitations
+
+As we are currently in the early (beta) stage, Farspeak is limited to 1000 entities and their vectors per account.
