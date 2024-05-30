@@ -217,4 +217,5 @@ Please have a look at [tests](src/test) to see how can you use Farspeak with Typ
 
 ## Limitations
 
-As we are currently in the early (beta) stage, Farspeak is limited to 1000 entities and their vectors per account.
+1. As we are currently in the early (beta) stage, Farspeak is limited to 1000 entities and their vectors per account.
+2. File size to process is 1mb max.
