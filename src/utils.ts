@@ -1,4 +1,3 @@
-import mime from "mime";
 import { isEmpty } from "ramda";
 import { FARSPEAK_ERROR, FarspeakError } from "./errors";
 import { EntityType } from "./types";
@@ -82,9 +81,4 @@ export const tryApi = async (cb: () => Promise<any>) => {
       throw new FarspeakError("Unknown request error");
     }
   }
-};
-
-export const checkPdf = (filePath: string) => {
-  const mimeType = mime.getType(filePath);
-  return mimeType === "application/pdf";
 };

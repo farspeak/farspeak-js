@@ -161,12 +161,11 @@ export const updateEntities = async <T>(
   return ids;
 };
 
-export const analyseDocument = async (
+export const fromDocument = async (
   props: API_ARGS & Entity_Chain & Analyse_Doc
 ) => {
   const { app, env, chain, backendToken } = props;
   const url = `${API_BASE}/docs/${app}/${env}/${chain[0]}`;
-  const templateJson = JSON.parse(props.template);
   const formData = new FormData();
   formData.append("docs", new Blob([props.file]), "resume_Marko_Jakic_.pdf");
   formData.append("instructions", props.instructions);

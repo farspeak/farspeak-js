@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { fileTypeFromBuffer } from "file-type";
+import { readFile } from "fs/promises";
 import { dissoc, omit, pick } from "ramda";
 import {
   fromDocument,
@@ -16,13 +16,12 @@ import { FarspeakError } from "./errors";
 import {
   DeleteEntitiesResult,
   EntityType,
+  Entity_ID,
   Farspeak_Construct,
   PaginationMeta,
   WriteEntitiesResult,
-  Entity_ID
 } from "./types";
 import { tryApi } from "./utils";
-import { readFile } from "fs/promises";
 
 class Farspeak {
   public app: string = "";
@@ -169,6 +168,7 @@ class Farspeak {
 }
 
 const checkPdf = async (file: Buffer) => {
+  const { fileTypeFromBuffer } = await import("file-type");
   const type = await fileTypeFromBuffer(file);
   if (type?.mime === "application/pdf") {
     return true;

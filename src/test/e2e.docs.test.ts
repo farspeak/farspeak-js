@@ -29,7 +29,7 @@ const farspeak = new Farspeak({ app, env, backendToken });
   };
   const doc = await farspeak
     .entity("cvs")
-    .analyseDocument({ filePath, instructions, template });
+    .fromDocument({ filePath, instructions, template });
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const entity = await farspeak.entity("cvs").get<MyEntityType>(doc.id);
   assert(doc.id === entity.id);

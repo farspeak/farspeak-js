@@ -4,7 +4,9 @@ Our service allows you to store and process both structured and unstructured dat
 
 This is our early release, so stay tuned for much more to come!
 
-## Getting started
+## Installation
+
+Farspeak supports both ESM and CommonJS modules, allowing you to integrate it seamlessly into your projects using either module system and you can use it with npm, yarn, bun, etc.
 
 First install the NPM package (e.g. with npm, yarn, pnpm, bun):
 
@@ -14,7 +16,7 @@ npm i farspeak
 
 Then, in your JS or TS file import the `Farspeak` class:
 
-```ts
+```js
 import { Farspeak } from "farspeak";
 //OR
 const Farspeak = require("farspeak").Farspeak;
@@ -30,53 +32,45 @@ const farspeak = new Farspeak({
 });
 ```
 
+## Getting started
+
 Next step is to write your first entity. This is done by `.write` command, for example using `cars` entity:
 
 ```js
 // Entities have to be of array type even with only one element
-const cars = [
+const todos = [
   {
-    name: "BMW",
-    model: "X5",
-    year: 2020,
+    task: "Finish report",
+    priority: "high",
+    completed: false,
   },
   {
-    name: "Audi",
-    model: "Q7",
-    year: 2021,
+    task: "Buy groceries",
+    completed: false,
   },
   {
-    name: "Mercedes",
-    model: "S-Class",
-    year: 2022,
+    task: "Call mom",
+    completed: false,
   },
 ];
-farspeak
-  .entity("cars")
-  .write(cars)
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((err) => console.log(err));
+
+farspeak.entity("todos").write(todos).then(console.log); // get the ids
 ```
 
 Let's make a sample inquiry using `.inquire` method, useful for RAG applications:
 
 ```js
 farspeak
-  .entity("cars")
-  .inquire("From which year is our model Q7?")
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((err) => console.log(err));
+  .entity("todos")
+  .inquire("Which todo has highest priority?")
+  .then(console.log);
 ```
 
 You should get response like:
 
 ```js
 {
-  answer: "The Audi Q7 model is from the year 2021.";
+  answer: "Finishing report has highest priority.";
 }
 ```
 
@@ -90,27 +84,30 @@ Using Typescript it becomes very easy, just prepare your type and instructions f
 
 ```js
 type MyEntityType = {
-  full_name: string;
-  landlord: string;
-  location: string;
-  email: string;
-  phone: string;
-  paragraphs: string[];
+  full_name: string,
+  landlord: string,
+  location: string,
+  email: string,
+  phone: string,
+  paragraphs: string[],
 };
 const filePath = "./path/to/fake.pdf";
 const instructions = "This is a Rental agreement";
 const template = {
   full_name: "This is full name of the tenant",
   landlord: "This is full name of the landlord",
-  location: "Location of the apartment, including street name and number, country and city",
+  location:
+    "Location of the apartment, including street name and number, country and city",
   email: "This is email of the landlord",
   paragraphs: `List of paragraphs in the contract`,
 };
+
 const doc = await farspeak
   .entity("rentals")
-  .analyseDocument({ filePath, instructions, template });
+  .fromDocument({ filePath, instructions, template })
+  .then(console.log);
 // Finally, check if this entity exists:
-const entity = await farspeak.entity("rentals").get<MyEntityType>(doc.id);
+const entity = (await farspeak.entity("rentals").get) < MyEntityType > doc.id;
 ```
 
 The more specific you are about your requirements, the better the results will be. While a general list of paragraphs can work, it's not ideal. For the best outcome, clearly specify what you need, such as providing a list of amenities as an array of strings.
@@ -129,11 +126,11 @@ See [e2e.docs.test.ts](src/test/e2e.docs.test.ts) for a CV example.
 
 As with any CRUD service, you can update and delete entities. However, our update feature ensures that proprietary data and embeddings remain synchronized with every CRUD operation. This eliminates the hassle of updating data and embeddings separately.
 
-```js
-let updated = await farspeak.entity("rentals").update<MyEntityType>({
+```ts
+const updated = await farspeak.entity("rentals").update<MyEntityType>({
   id: doc.id,
-  landlord: "New Name",
-  start_date: "2024-01-01", // <-- add new props
+  landlord: "New Name", // update existing prop
+  start_date: "2024-01-01", // <-- you can add new props
 });
 // Now you can inquire the new changes since embeddings are up-to-date
 ```
@@ -142,10 +139,8 @@ See [e2e.crud.update.test.ts](src/test/e2e.crud.update.test.ts) for a Projects/M
 
 ## Testing
 
+To avoid hassle with ts-node and Typescript, I used Bun to run all my .ts files for e2e tests.
+
+To install Bun follow the instructions on [Bun](https://bun.sh/) home page.
+
 Please have a look at [tests](src/test) to see how can you use Farspeak with Typescript.
-
-## Changelog
-
-1.1.0 - Added initial pdf support
-
-1.0.0 - Initial release
