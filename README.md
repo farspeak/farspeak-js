@@ -189,7 +189,7 @@ farspeak
   .then(console.log);
 
 // In Typescript
-const updated = await farspeak.entity("rentals").update<MyEntityType>({
+const updated = await farspeak.entity("rentals").update<Rental>({
   id: doc.id,
   landlord: "New Name", // update existing prop
   start_date: "2024-01-01", // <-- you can add new props
