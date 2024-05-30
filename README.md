@@ -117,20 +117,19 @@ const template = {
   const doc = await farspeak
     .entity("rentals")
     .fromDocument({ filePath, instructions, template });
+  console.log({ doc });
 
   // Finally, check if this entity exists:
   const entity = await farspeak.entity("rentals").get(doc.id);
-
-  // Or get all entities
-  const result = await farspeak.entity("rentals").getAll();
-
-  // Get all entities using Typescript
-  const result = await farspeak.entity("rentals").getAll<Rentals, "rentals">();
-  console.log(result.rentals.length); // your IDE should recognize `rentals` prop
+  console.log({ entity });
 })();
 ```
 
-Note: Please create your own `Rentals` type so that it can work with Typescript.
+You can also use `.getAll` to read first 10 entities (default value for paginated response):
+
+```ts
+const result = await farspeak.entity("rentals").getAll();
+```
 
 Methods in Farspeak can be typed using generics, lile `.get<MyType>(id)`. Let's see how can we modify previous example in Typescript:
 
@@ -147,7 +146,13 @@ type MyEntityType = {
 
 // Make sure the return value has the same type
 const entity = await farspeak.entity("rentals").get<MyEntityType>(doc.id);
+
+// Get all entities:
+const result = await farspeak.entity("rentals").getAll<Rentals, "rentals">();
+console.log(result.rentals.length); // your IDE should recognize `rentals` prop
 ```
+
+Note: Please create your own `Rentals` type so that it can work with Typescript.
 
 The more specific you are about your requirements, the better the results will be. While a general list of paragraphs can work, it's not ideal. For the best outcome, clearly specify what you need, such as providing a list of amenities as an array of strings.
 
