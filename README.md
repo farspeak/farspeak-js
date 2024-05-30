@@ -135,7 +135,7 @@ Methods in Farspeak can be typed using generics, lile `.get<MyType>(id)`. Let's 
 
 ```ts
 // Define your model
-type MyEntityType = {
+type Rental = {
   full_name: string;
   landlord: string;
   location: string;
@@ -145,14 +145,14 @@ type MyEntityType = {
 };
 
 // Make sure the return value has the same type
-const entity = await farspeak.entity("rentals").get<MyEntityType>(doc.id);
+const entity = await farspeak.entity("rentals").get<Rental>(doc.id);
 
 // Get all entities:
-const result = await farspeak.entity("rentals").getAll<Rentals, "rentals">();
+const result = await farspeak.entity("rentals").getAll<Rental, "rentals">();
 console.log(result.rentals.length); // your IDE should recognize `rentals` prop
 ```
 
-Note: Please create your own `Rentals` type so that it can work with Typescript.
+Note: Please create your own `Rental` type so that it can work with Typescript suiting your own specifications.
 
 The more specific you are about your requirements, the better the results will be. While a general list of paragraphs can work, it's not ideal. For the best outcome, clearly specify what you need, such as providing a list of amenities as an array of strings.
 
