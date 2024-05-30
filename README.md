@@ -34,7 +34,7 @@ const farspeak = new Farspeak({
 
 ## Getting started
 
-Next step is to write your first entity. This is done by `.write` command, for example using `cars` entity:
+Next step is to write your first entity. This is done by `.write` command, for example using `todos` entity:
 
 ```js
 // Entities have to be of array type even with only one element
