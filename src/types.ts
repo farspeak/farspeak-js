@@ -2,6 +2,8 @@ export type Farspeak_Construct = {
   app: string | undefined;
   env: string | undefined;
   backendToken: string | undefined;
+  publicKey?: string | undefined;
+  secretKey?: string | undefined;
 };
 export type EntityType = {
   [key: string]: any;
@@ -32,6 +34,8 @@ export type API_ARGS = {
   app: string;
   env: string;
   backendToken: string;
+  publicKey?: string;
+  secretKey?: string;
 };
 
 export type Analyse_Doc = {

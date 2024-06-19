@@ -78,3 +78,42 @@ export const milestonesPegasus: Milestone[] = [
     owner: "Charlie Lee",
   },
 ];
+
+export type Smurf = {
+  name: string;
+  role: string;
+  description: string;
+};
+
+export const smurfs: Smurf[] = [
+  {
+    name: "Papa Smurf",
+    role: "Leader",
+    description:
+      "The wise and benevolent leader of the Smurfs. He has a long white beard and wears red pants and a red hat with a white trim.",
+  },
+  {
+    name: "Smurfette",
+    role: "Baker",
+    description:
+      "The only female Smurf in the village. She has blonde hair and wears a white dress with a blue skirt.",
+  },
+  {
+    name: "Brainy Smurf",
+    role: "Inventor",
+    description:
+      "The smartest Smurf in the village. He wears thick glasses and a white lab coat.",
+  },
+  {
+    name: "Jokey Smurf",
+    role: "Prankster",
+    description:
+      "The Smurf who loves to play pranks on others. He wears a purple hat with a yellow pom-pom and carries a box of exploding presents.",
+  },
+  {
+    name: "Clumsy Smurf",
+    role: "Baker's assistant",
+    description:
+      "The most accident-prone Smurf in the village. He wears a white baker's hat and is often covered in flour.",
+  },
+];
