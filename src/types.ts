@@ -4,6 +4,7 @@ export type Farspeak_Construct = {
   backendToken: string | undefined;
   publicKey?: string | undefined;
   secretKey?: string | undefined;
+  vectorIndexName?: string | undefined;
 };
 export type EntityType = {
   [key: string]: any;
@@ -20,10 +21,10 @@ export type EntitiesMeta = {
   next_page?: string;
   first_page?: string;
   last_page?: string;
-}
+};
 export type PaginationMeta = {
   __meta: EntitiesMeta;
-}
+};
 export type Entity_Chain = { chain: string[] };
 export type Entity_ID = { id: string };
 export type Entity_Body = { body: EntityType };
@@ -36,6 +37,7 @@ export type API_ARGS = {
   backendToken: string;
   publicKey?: string;
   secretKey?: string;
+  vectorIndexName?: string;
 };
 
 export type Analyse_Doc = {

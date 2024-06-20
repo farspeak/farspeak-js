@@ -30,6 +30,7 @@ class Farspeak {
   public backendToken: string = "";
   public publicKey: string = "";
   public secretKey: string = "";
+  public vectorIndexName: string = "";
   private chain: string[];
   constructor({
     app,
@@ -37,6 +38,7 @@ class Farspeak {
     backendToken,
     publicKey,
     secretKey,
+    vectorIndexName,
   }: Farspeak_Construct) {
     if (!app || !env || !backendToken) {
       throw new FarspeakError("One of the dependencies is missing!");
@@ -49,6 +51,9 @@ class Farspeak {
     }
     if (secretKey) {
       this.secretKey = secretKey;
+    }
+    if (vectorIndexName) {
+      this.vectorIndexName = vectorIndexName;
     }
     this.chain = [];
   }
@@ -142,6 +147,7 @@ class Farspeak {
       backendToken: this.backendToken,
       publicKey: this.publicKey,
       secretKey: this.secretKey,
+      vectorIndexName: this.vectorIndexName,
       chain: this.chain,
       inquiry,
     });

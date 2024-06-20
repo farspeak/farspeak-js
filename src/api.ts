@@ -79,7 +79,8 @@ export const getEntity = async (props: API_ARGS & Entity_Chain & Entity_ID) => {
 export const getInquiry = async (
   props: API_ARGS & { inquiry: string } & Entity_Chain
 ): Promise<{ answer: string }> => {
-  const { app, env, backendToken, publicKey, secretKey } = props;
+  const { app, env, backendToken, publicKey, secretKey, vectorIndexName } =
+    props;
   const url = `${API_BASE}/knowledgebase/${app}/${env}/${props.chain.join(
     "/"
   )}`;
@@ -90,6 +91,11 @@ export const getInquiry = async (
     headers = Object.assign({}, headers, {
       "X-Public-Key": publicKey,
       "X-Secret-Key": secretKey,
+    });
+  }
+  if (vectorIndexName) {
+    headers = Object.assign({}, headers, {
+      "X-Vector-Index-Name": vectorIndexName,
     });
   }
   const request = await axios({
