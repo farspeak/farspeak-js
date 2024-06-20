@@ -1,5 +1,11 @@
 # farspeak
 
+## 1.2.1
+
+### Patch Changes
+
+- 04cc92a: Add vector index name as an argument to farspeak instance
+
 ## 1.2.0
 
 ### Minor Changes
