@@ -1,5 +1,11 @@
 # farspeak
 
+## 1.2.0
+
+### Minor Changes
+
+- 9f3cdbd: Added new options public key and secret key, so that you can use your own Atlas url as set in the dashboard
+
 ## 1.1.1
 
 ### Patch Changes
