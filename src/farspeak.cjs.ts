@@ -1,10 +1,11 @@
 import "dotenv/config";
+import { fileTypeFromBuffer } from "file-type";
 import { readFile } from "fs/promises";
 import { dissoc, omit, pick } from "ramda";
 import {
-  fromDocument,
   deleteEntities,
   deleteEntity,
+  fromDocument,
   getEntities,
   getEntity,
   getInquiry,
@@ -27,14 +28,33 @@ class Farspeak {
   public app: string = "";
   public env: string = "";
   public backendToken: string = "";
+  public publicKey: string = "";
+  public secretKey: string = "";
+  public vectorIndexName: string = "";
   private chain: string[];
-  constructor({ app, env, backendToken }: Farspeak_Construct) {
+  constructor({
+    app,
+    env,
+    backendToken,
+    publicKey,
+    secretKey,
+    vectorIndexName,
+  }: Farspeak_Construct) {
     if (!app || !env || !backendToken) {
       throw new FarspeakError("One of the dependencies is missing!");
     }
     this.app = app;
     this.env = env;
     this.backendToken = backendToken;
+    if (publicKey) {
+      this.publicKey = publicKey;
+    }
+    if (secretKey) {
+      this.secretKey = secretKey;
+    }
+    if (vectorIndexName) {
+      this.vectorIndexName = vectorIndexName;
+    }
     this.chain = [];
   }
   public addToChain(val: string) {
@@ -49,6 +69,8 @@ class Farspeak {
         app: this.app,
         env: this.env,
         backendToken: this.backendToken,
+        publicKey: this.publicKey,
+        secretKey: this.secretKey,
         payload,
         chain: this.chain,
       })
@@ -68,6 +90,8 @@ class Farspeak {
         app: this.app,
         env: this.env,
         backendToken: this.backendToken,
+        publicKey: this.publicKey,
+        secretKey: this.secretKey,
         chain: this.chain,
       })
     );
@@ -79,6 +103,8 @@ class Farspeak {
         app: this.app,
         env: this.env,
         backendToken: this.backendToken,
+        publicKey: this.publicKey,
+        secretKey: this.secretKey,
         chain: this.chain,
         id,
       })
@@ -92,6 +118,8 @@ class Farspeak {
       app: this.app,
       env: this.env,
       backendToken: this.backendToken,
+      publicKey: this.publicKey,
+      secretKey: this.secretKey,
       chain: this.chain,
       payload,
     });
@@ -104,6 +132,8 @@ class Farspeak {
       app: this.app,
       env: this.env,
       backendToken: this.backendToken,
+      publicKey: this.publicKey,
+      secretKey: this.secretKey,
       chain: this.chain,
       id: payload.id,
       body: omit(["id"], payload),
@@ -115,6 +145,9 @@ class Farspeak {
       app: this.app,
       env: this.env,
       backendToken: this.backendToken,
+      publicKey: this.publicKey,
+      secretKey: this.secretKey,
+      vectorIndexName: this.vectorIndexName,
       chain: this.chain,
       inquiry,
     });
@@ -126,6 +159,8 @@ class Farspeak {
         app: this.app,
         env: this.env,
         backendToken: this.backendToken,
+        publicKey: this.publicKey,
+        secretKey: this.secretKey,
         chain: this.chain,
       })
     );
@@ -137,6 +172,8 @@ class Farspeak {
         app: this.app,
         env: this.env,
         backendToken: this.backendToken,
+        publicKey: this.publicKey,
+        secretKey: this.secretKey,
         chain: this.chain,
         id,
       })
@@ -157,6 +194,8 @@ class Farspeak {
         app: this.app,
         env: this.env,
         backendToken: this.backendToken,
+        publicKey: this.publicKey,
+        secretKey: this.secretKey,
         chain: this.chain,
         instructions,
         template,
@@ -168,7 +207,6 @@ class Farspeak {
 }
 
 const checkPdf = async (file: Buffer) => {
-  const { fileTypeFromBuffer } = await import("file-type");
   const type = await fileTypeFromBuffer(file);
   if (type?.mime === "application/pdf") {
     return true;
