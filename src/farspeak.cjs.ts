@@ -1,5 +1,4 @@
 import "dotenv/config";
-import { fileTypeFromBuffer } from "file-type";
 import { readFile } from "fs/promises";
 import { dissoc, omit, pick } from "ramda";
 import {
@@ -207,6 +206,7 @@ class Farspeak {
 }
 
 const checkPdf = async (file: Buffer) => {
+  const fileTypeFromBuffer = (await import("file-type")).fileTypeFromBuffer;
   const type = await fileTypeFromBuffer(file);
   if (type?.mime === "application/pdf") {
     return true;
