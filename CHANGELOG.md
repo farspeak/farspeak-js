@@ -1,5 +1,11 @@
 # farspeak
 
+## 1.2.2
+
+### Patch Changes
+
+- 4d8719c: Update cjs version as well. Previously it wasn't included.
+
 ## 1.2.1
 
 ### Patch Changes
