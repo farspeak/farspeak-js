@@ -55,7 +55,8 @@ const farspeak = new Farspeak({
   env: "dev", // your app env
   backendToken: "43t8q1bc2eggnc", // paste your backend token
   publicKey: "fs-pub-...",
-  secretKey: "fs-..."
+  secretKey: "fs-...",
+  vectorIndexName: "...",
 });
 ```
 
@@ -69,7 +70,7 @@ Now when you send CRUD and docs/unstructured data requests, the entities will be
 
 Please follow instructions how to create vector search index for your database on our [wiki page](https://github.com/farspeak/farspeak-js/wiki/Create-Vector-Search-Index-in-Atlas).
 
-To use RAG with Farspeak you will need vector index name you just created in you .env file called `FARSPEAK_VECTOR_INDEX`.
+To use RAG with Farspeak you will need your vector index you just created in your Atlas account, and pass it as an argument called `vectorIndexName` to the Farspeak instance, as shown above.
 
 ## Getting started
 
