@@ -1,5 +1,11 @@
 # farspeak
 
+## 1.2.3
+
+### Patch Changes
+
+- 871f5b3: Change to dynamic import for fileTypeFromBuffer for cjs only
+
 ## 1.2.2
 
 ### Patch Changes
