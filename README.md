@@ -41,7 +41,7 @@ const farspeak = new Farspeak({
 ```
 
 | :warning: | Never expose the backend token in the frontend code, as it will be visible and unprotected in the browser. |
-|-|:-|
+| --------- | :--------------------------------------------------------------------------------------------------------- |
 
 ### Use your Atlas database for RAG
 
@@ -168,6 +168,21 @@ You can also use `.getAll` to read first 10 entities (default value for paginate
 ```ts
 const result = await farspeak.entity("rentals").getAll();
 ```
+
+### Working with remote documents
+
+When loading remote PDF files we use `fromRemoteDocument` method instead:
+
+```js
+const filePathRemote = "https://myserver.com/files/contract002.pdf";
+const doc = await farspeak
+  .entity("rentals")
+  .fromRemoteDocument({ url: filePathRemote, instructions, template });
+```
+
+See [e2e.docs-remote.test.ts](src/test/e2e.docs-remote.test.ts) as an example.
+
+## Generics
 
 Methods in Farspeak can be typed using generics, lile `.get<MyType>(id)`. Let's see how can we modify previous example in Typescript:
 

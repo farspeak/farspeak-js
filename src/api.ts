@@ -227,10 +227,11 @@ export const updateEntities = async <T>(
 export const fromDocument = async (
   props: API_ARGS & Entity_Chain & Analyse_Doc
 ) => {
-  const { app, env, chain, backendToken, publicKey, secretKey } = props;
+  const { app, env, chain, backendToken, publicKey, secretKey, fileName } =
+    props;
   const url = `${API_BASE}/docs/${app}/${env}/${chain[0]}`;
   const formData = new FormData();
-  formData.append("docs", new Blob([props.file]), "resume_Marko_Jakic_.pdf");
+  formData.append("docs", new Blob([props.file]), fileName);
   formData.append("instructions", props.instructions);
   formData.append("template", props.template);
   let headers = {

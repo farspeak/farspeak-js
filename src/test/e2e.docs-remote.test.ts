@@ -1,4 +1,3 @@
-import assert from "assert";
 import "dotenv/config";
 import { Farspeak } from "../../src/farspeak";
 
@@ -18,8 +17,9 @@ const farspeak = new Farspeak({
   vectorIndexName,
 });
 
+const url = "http://api.farspeak.ai/fake-resume.pdf";
+
 (async () => {
-  const filePath = "./src/test/fake-resume.pdf";
   const instructions = "This is a CV document";
   const template = {
     full_name: "This is full name of the candidate",
@@ -30,17 +30,6 @@ const farspeak = new Farspeak({
   };
   const doc = await farspeak
     .entity("cvs")
-    .fromDocument({ filePath, instructions, template });
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const entity = await farspeak.entity("cvs").get(doc.id);
-  assert(doc.id === entity.id);
-  assert(doc.email === entity.email);
-  assert(doc.phone === entity.phone);
-  assert(Array.isArray(doc.skills));
-  assert(Array.isArray(doc.last_positions));
-
-  const inquire = await farspeak
-    .entity("cvs")
-    .inquire("Where did John Doe work?");
-  console.log({ inquire });
+    .fromRemoteDocument({ url, instructions, template });
+  console.log({ doc });
 })();

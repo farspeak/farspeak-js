@@ -44,6 +44,7 @@ export type Analyse_Doc = {
   file: Buffer;
   instructions: string;
   template: string;
+  fileName: string;
 };
 
 export type DeleteEntitiesResult = Promise<{ deleted: number }>;
