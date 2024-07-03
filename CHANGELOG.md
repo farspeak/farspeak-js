@@ -1,5 +1,11 @@
 # farspeak
 
+## 1.4.0
+
+### Minor Changes
+
+- c2b67c8: Add fromDirectory with recursive option
+
 ## 1.3.0
 
 ### Minor Changes
