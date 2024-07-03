@@ -1,3 +1,5 @@
+import { readdir } from "fs/promises";
+import { join, relative } from "path";
 import { isEmpty } from "ramda";
 import { FARSPEAK_ERROR, FarspeakError } from "./errors";
 import { EntityType } from "./types";
@@ -81,4 +83,32 @@ export const tryApi = async (cb: () => Promise<any>) => {
       throw new FarspeakError("Unknown request error");
     }
   }
+};
+
+export const isString = (val: unknown): val is string =>
+  typeof val === "string";
+
+export const getFiles = async (directory: string) => {
+  const entries = await readdir(directory, { withFileTypes: true });
+  return entries
+    .filter((entry) => !entry.isDirectory())
+    .map((entry) => entry.name);
+};
+
+export const getFilesRecursive = async (
+  baseDirectory: string,
+  currentDirectory: string = baseDirectory
+): Promise<string[]> => {
+  const entries = await readdir(currentDirectory, { withFileTypes: true });
+  const files = await Promise.all(
+    entries.map(async (entry) => {
+      const fullPath = join(currentDirectory, entry.name);
+      const relativePath = relative(baseDirectory, fullPath);
+      if (entry.isDirectory()) {
+        return getFilesRecursive(baseDirectory, fullPath);
+      }
+      return relativePath;
+    })
+  );
+  return files.flat();
 };

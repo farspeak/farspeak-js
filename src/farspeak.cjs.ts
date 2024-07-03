@@ -23,7 +23,7 @@ import {
   PaginationMeta,
   WriteEntitiesResult,
 } from "./types";
-import { tryApi } from "./utils";
+import { getFiles, getFilesRecursive, isString, tryApi } from "./utils";
 
 class Farspeak {
   public app: string = "";
@@ -329,6 +329,63 @@ const EntityOps = (farspeak: Farspeak, name: string) => {
         });
         farspeak.resetChain();
         return doc;
+      } catch (e: any) {
+        throw new FarspeakError(e.message);
+      }
+    },
+    fromDirectory: async ({
+      directoryPath,
+      instructions,
+      template,
+      recursive,
+    }: {
+      directoryPath: string;
+      instructions: string;
+      template: Record<string, string>;
+      recursive?: boolean;
+    }) => {
+      if (!template || typeof template !== "object")
+        throw new FarspeakError("Template is required");
+      try {
+        let files = recursive
+          ? await getFilesRecursive(directoryPath)
+          : await getFiles(directoryPath);
+        files = files.filter(isString);
+        if (!files.length) {
+          throw new FarspeakError("Directory is empty");
+        }
+        const oneMBInMebi = 1 << 20;
+        const bufferPromises = files.map(async (file) => {
+          const filePath = path.join(directoryPath, file);
+          const fileStream = await readFile(filePath);
+          const isPdf = await checkPdf(fileStream);
+          if (!isPdf) {
+            return null;
+          }
+          if (fileStream.byteLength > oneMBInMebi) {
+            throw new FarspeakError("File size is too large");
+          }
+          return { fileStream, fileName: file };
+        });
+        const buffersAll = await Promise.all(bufferPromises);
+        const buffers: { fileStream: Buffer; fileName: string }[] =
+          buffersAll.filter(
+            (item): item is { fileStream: Buffer; fileName: string } =>
+              item !== null
+          );
+        const docs = await Promise.all(
+          buffers.map(async ({ fileStream, fileName }) => {
+            const doc = await farspeak.fromDocument({
+              file: fileStream,
+              instructions,
+              template: JSON.stringify(template),
+              fileName,
+            });
+            return doc;
+          })
+        );
+        farspeak.resetChain();
+        return docs;
       } catch (e: any) {
         throw new FarspeakError(e.message);
       }
