@@ -1,5 +1,11 @@
 # farspeak
 
+## 1.3.0
+
+### Minor Changes
+
+- 5d17b1c: Added remote PDF document loading
+
 ## 1.2.3
 
 ### Patch Changes
