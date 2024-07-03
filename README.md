@@ -182,6 +182,19 @@ const doc = await farspeak
 
 See [e2e.docs-remote.test.ts](src/test/e2e.docs-remote.test.ts) as an example.
 
+### Working with directories
+
+To load directory we use `fromDirectory` method. It receives `recursive` argument if you want to load nested directories.
+
+```js
+const directoryPath = "./src/test/demo";
+const doc = await farspeak
+  .entity("cvs")
+  .fromDirectory({ directoryPath, instructions, template, recursive: true });
+```
+
+See [e2e.docs-dir.test.ts](src/test/e2e.docs-dir.test.ts) as an example.
+
 ## Generics
 
 Methods in Farspeak can be typed using generics, lile `.get<MyType>(id)`. Let's see how can we modify previous example in Typescript:
