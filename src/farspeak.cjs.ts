@@ -1,5 +1,7 @@
+import axios from "axios";
 import "dotenv/config";
 import { readFile } from "fs/promises";
+import path from "path";
 import { dissoc, omit, pick } from "ramda";
 import {
   deleteEntities,
@@ -183,10 +185,12 @@ class Farspeak {
     file,
     instructions,
     template,
+    fileName,
   }: {
     instructions: string;
     template: string;
     file: Buffer;
+    fileName: string;
   }) {
     const doc = await tryApi(() =>
       fromDocument({
@@ -199,6 +203,7 @@ class Farspeak {
         instructions,
         template,
         file,
+        fileName,
       })
     );
     return doc;
@@ -267,6 +272,33 @@ const EntityOps = (farspeak: Farspeak, name: string) => {
       farspeak.resetChain();
       return result;
     },
+    fromRemoteDocument: async ({
+      url,
+      instructions,
+      template,
+    }: {
+      url: string;
+      instructions: string;
+      template: Record<string, string>;
+    }) => {
+      const parsedUrl = new URL(url);
+      const pathname = parsedUrl.pathname;
+      const fileName = path.basename(pathname);
+      const response = await axios({
+        method: "get",
+        url,
+        responseType: "arraybuffer",
+      });
+      const buffer = Buffer.from(response.data, "binary");
+      const doc = await farspeak.fromDocument({
+        file: buffer,
+        instructions,
+        template: JSON.stringify(template),
+        fileName,
+      });
+      farspeak.resetChain();
+      return doc;
+    },
     fromDocument: async ({
       filePath,
       instructions,
@@ -280,6 +312,7 @@ const EntityOps = (farspeak: Farspeak, name: string) => {
         throw new FarspeakError("Template is required");
       try {
         const fileStream = await readFile(filePath);
+        const fileName = path.basename(filePath);
         const isPdf = await checkPdf(fileStream);
         if (!isPdf) {
           throw new FarspeakError("File is not a PDF");
@@ -292,6 +325,7 @@ const EntityOps = (farspeak: Farspeak, name: string) => {
           file: fileStream,
           instructions,
           template: JSON.stringify(template),
+          fileName,
         });
         farspeak.resetChain();
         return doc;
